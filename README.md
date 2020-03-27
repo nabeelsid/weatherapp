@@ -1,4 +1,4 @@
-# weatherapp
+# WeatherApp
 CLI weatherapp for ubuntu
 
 An application written in Java to retrieve and display weather information about a user entered city. Uses OpenWeather API
