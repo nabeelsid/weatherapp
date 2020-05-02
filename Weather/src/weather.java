@@ -1,5 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,13 +6,6 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import java.net.URL;
 import java.net.URLConnection;
 import org.json.simple.JSONArray;
@@ -21,83 +13,143 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 public class weather {
-	
+	// 94f833994ddbbc5e6c563669a6ea5bb4 my openWeather Api key.
+	private String cityName;
+	private String APIkey;
+	private int currentTemp;
+	private int minTemp;
+	private int maxTemp;
+	private int feelsLike;
+	private final int kelvin = 273;
+
+	/**
+	 * Creates a default weather object with toronto as city but no API key
+	 * associated with it. API key must be set before using fetch
+	 */
 	public weather() {
-		JFrame frame = new JFrame(); //First create this object 
-		JPanel panel = new JPanel(); //panel goes inside the frame
-		JButton button = new JButton("Find Weather");
-		JLabel label =  new JLabel("Get Weather");
-		panel.setBorder(BorderFactory.createEmptyBorder(50, 150, 0, 150));
-		panel.setLayout(new GridLayout(2,2));
-		panel.add(button);
-		
-		
-		
-		frame.add(panel, BorderLayout.CENTER); //here we add the panel in the frame with border as Center
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Weather GUI");
-		frame.pack();
-		frame.setVisible(true);
+		this.cityName = "tornoto";
 	}
 
-	public static String cityCall() {
-		Scanner input = new Scanner(System.in);
-		System.out.print("Please Enter a City : ");
-		String cityInput = input.next().toLowerCase().trim();
-		// input.close();
-		return cityInput;
+	/**
+	 * Creates a weather object and pulls relevant weather forecast information
+	 * about the given location
+	 * 
+	 * @param cityName   - The city of the requested information
+	 * @param yourAPIkey - The API Key from OpenWeather (Should obtain one before
+	 *                   hand)
+	 */
+
+	public weather(String cityName, String yourAPIkey) {
+		this.cityName = cityName;
+		this.APIkey = yourAPIkey;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked", "resource" })
-	public static void main(String[] args) {
-		weather myWeather = new weather();
+	/**
+	 * This method fetches the weather information
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void fetchWeather() {
 		try {
-			String cityInput = cityCall();
-			while (cityInput != "exit") {
-				if (cityInput == "exit") {
-					break;
-				} else {
-					String city;
-					int weatherInfo[] = new int[6];
-					int count = 0;
 
-					// URL
-					URL oracle = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityInput
-							+ "&appid=94f833994ddbbc5e6c563669a6ea5bb4");
-					URLConnection yc = oracle.openConnection();
-					BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-					String inputLine = in.readLine();
-					Object obj = new JSONParser().parse(inputLine);
+			String cityInput = cityName.toLowerCase().trim();
+			String city;
+			int weatherInfo[] = new int[6];
+			int count = 0;
 
-					JSONObject jo = (JSONObject) obj;
-					city = (String) jo.get("name");
-					Map main = ((Map) jo.get("main"));
-					Iterator<Map.Entry> itr1 = main.entrySet().iterator();
-					while (itr1.hasNext()) {
-						Map.Entry pair = itr1.next();
-						// System.out.println(pair.getKey() + " : " + pair.getValue());
-						weatherInfo[count] = (int) Double.parseDouble(pair.getValue().toString()); // cast double to int
-																									// so
-																									// that it
-																									// automatically
-																									// rounds down
-						count++;
-					}
-					System.out.printf("\nWeather info for %s\n", city);
-					System.out.printf("\nCurrent Temp	: %d C	Feels like	: %d C\n\n", (weatherInfo[0] - 273),
-							(weatherInfo[4] - 273));
-					System.out.printf("Today's Min	: %d C	Today's Max	: %d C\n", (weatherInfo[1] - 273),
-							(weatherInfo[5] - 273));
-					cityInput = cityCall();
-				}
+			// URL
+			URL oracle = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&appid=" + APIkey);
+			URLConnection yc = oracle.openConnection();
+			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+			String inputLine = in.readLine();
+			Object obj = new JSONParser().parse(inputLine);
+
+			JSONObject jo = (JSONObject) obj;
+			city = (String) jo.get("name");
+			Map main = ((Map) jo.get("main"));
+			Iterator<Map.Entry> itr1 = main.entrySet().iterator();
+			while (itr1.hasNext()) {
+				Map.Entry pair = itr1.next();
+				// cast double to int so that it automatically rounds down
+				weatherInfo[count] = (int) Double.parseDouble(pair.getValue().toString());
+				count++;
 			}
-			
+			this.cityName = city;
+			this.currentTemp = weatherInfo[0] - kelvin;
+			this.feelsLike = weatherInfo[4] - kelvin;
+			this.minTemp = weatherInfo[1] - kelvin;
+			this.maxTemp = weatherInfo[5] - kelvin;
 		} catch (FileNotFoundException e) {
-			// System.out.println("Invalid argument. No such city");
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * This method returns an int representing today's current temperature in degree
+	 * C
+	 * 
+	 * @return Current weather in degree C
+	 */
+	public int getCurrentWeather() {
+		return this.currentTemp;
+	}
+
+	/**
+	 * This method returns an int representing today's feel's like temperature in
+	 * degree C
+	 * 
+	 * @return Feels like temperature in degree C
+	 */
+	public int getFeelsLike() {
+		return this.feelsLike;
+	}
+
+	/**
+	 * This method returns an int representing today's Min temp in degree C
+	 * 
+	 * @return Today's minimum temperature in degreeC
+	 */
+	public int getTodaysMin() {
+		return this.minTemp;
+	}
+
+	/**
+	 * This method returns an int representing today's Max temp in degree C
+	 * 
+	 * @return Today's maximum temperature in degree C
+	 */
+	public int getTodaysMax() {
+		return this.maxTemp;
+	}
+
+	/**
+	 * This method returns a string representation of the city's name
+	 * 
+	 * @return Name of the city as a string
+	 */
+	public String getCity() {
+		return this.cityName;
+	}
+
+	/**
+	 * This method sets the current city to city
+	 * 
+	 * @param city - Name of the city to be set
+	 */
+	public void setCity(String city) {
+		this.cityName = city;
+	}
+
+	/**
+	 * This method sets the current API key to APIkey
+	 * 
+	 * @param APIkey - The API key to be used to fetch weather information
+	 */
+	public void setAPIkey(String APIkey) {
+		this.APIkey = APIkey;
+	}
+
 }
