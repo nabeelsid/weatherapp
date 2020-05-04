@@ -1,10 +1,7 @@
 # WeatherApp
 Java Application for fetching weather information of a given city
 
--- Currently Supports only CLI
--- GUI Coming soon
-
-An application written in Java to retrieve and display weather information about a user entered city. Uses OpenWeather API
+An application written in Java to retrieve and display weather information for a user-entered city. Uses OpenWeather API
 which returns a JSON data. If you would like to use OpenWeather API then it is recommended that you sign up for a free API access
 from OpenWeather.
 
