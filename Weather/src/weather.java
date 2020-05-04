@@ -28,6 +28,7 @@ public class weather {
 	 */
 	public weather() {
 		this.cityName = "tornoto";
+		this.APIkey = "94f833994ddbbc5e6c563669a6ea5bb4";
 	}
 
 	/**

@@ -29,7 +29,7 @@ public class weatherGUI implements ActionListener {
 		panel.setBorder(BorderFactory.createEmptyBorder(50, 150, 0, 150));
 		panel.setLayout(new GridLayout(2, 2));
 		panel.add(button);
-		panel.add(label);
+		//panel.add(label);
 		panel.add(textInput);
 		
 		/////////////////////////////////////////
@@ -40,18 +40,23 @@ public class weatherGUI implements ActionListener {
 		frame.setVisible(true);
 		
 		button.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e) {
-						inputString = textInput.getText();
-					}
-				});
+		{
+			public void actionPerformed(ActionEvent e) {
+				inputString = textInput.getText();
+				trigger();
+				//System.out.println(inputString);
+			}
+		});
+	
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		this.inputString = textInput.getText();
-		trigger();
+//		inputString = textInput.getText();
+//		System.out.println(inputString);
+//		trigger();
+		
 	}
 
 	public String getInput() {
