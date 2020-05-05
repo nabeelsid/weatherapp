@@ -31,7 +31,7 @@ public class root implements ActionListener{
 		panel.add(userText);
 		
 		label = new JLabel("City");
-		label.setBounds(20,20,80,25);//x,y,width,height
+		label.setBounds(20,20,80,25);//x,y,width,height.
 		panel.add(label);
 		
 		button = new JButton("Go");
@@ -44,7 +44,7 @@ public class root implements ActionListener{
 		panel.add(currentTempLabel);
 		
 		feelsLike = new JLabel();
-		feelsLike.setBounds(20, 80, 50, 25);
+		feelsLike.setBounds(20, 80, 60, 25);
 		panel.add(feelsLike);
 		
 		todaysMin = new JLabel();
@@ -55,7 +55,9 @@ public class root implements ActionListener{
 		todaysMax.setBounds(200, 80, 60, 25);
 		panel.add(todaysMax);
 		
-		
+		currentCity = new JLabel();
+		currentCity.setBounds(20, 40, 200, 25);
+		panel.add(currentCity);
 		
 		frame.setTitle("Weather");
 		frame.setSize(300,200);
@@ -63,6 +65,14 @@ public class root implements ActionListener{
 		frame.setVisible(true);
 		frame.add(panel);
 		panel.setLayout(null);		
+		
+		w.setCity("toronto");
+		w.fetchWeather();
+		currentTempLabel.setText("Current : "+w.getCurrentWeather()+" C");
+		feelsLike.setText("Min: "+ w.getFeelsLike() + " C");
+		todaysMin.setText("Min: "+ w.getTodaysMin() + " C");
+		todaysMax.setText("Max: "+ w.getTodaysMax() + " C");
+		currentCity.setText("Today's forecast for: toronto");
 	}
 
 	@Override
@@ -74,6 +84,6 @@ public class root implements ActionListener{
 		feelsLike.setText("Min: "+ w.getFeelsLike() + " C");
 		todaysMin.setText("Min: "+ w.getTodaysMin() + " C");
 		todaysMax.setText("Max: "+ w.getTodaysMax() + " C");
-		
+		currentCity.setText("Today's forecast for: "+city);
 	}
 }
