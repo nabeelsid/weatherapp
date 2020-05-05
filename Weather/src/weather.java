@@ -5,10 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Scanner;
 import java.net.URL;
 import java.net.URLConnection;
-import org.json.simple.JSONArray;
+//import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
@@ -64,9 +63,13 @@ public class weather {
 			BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
 			String inputLine = in.readLine();
 			Object obj = new JSONParser().parse(inputLine);
-
+			
 			JSONObject jo = (JSONObject) obj;
-			this.cityName = (String) jo.get("name");
+			
+			Map sys = ((Map) jo.get("sys"));
+			String country = (String) sys.get("country"); //fetch country
+			
+			this.cityName = (String) jo.get("name") + ", "+country;
 			Map main = ((Map) jo.get("main"));
 			Iterator<Map.Entry> itr1 = main.entrySet().iterator();
 			while (itr1.hasNext()) {
@@ -75,7 +78,7 @@ public class weather {
 				weatherInfo[count] = (int) Double.parseDouble(pair.getValue().toString());
 				count++;
 			}
-			//this.cityName = city;
+			
 			this.currentTemp = weatherInfo[0] - kelvin;
 			this.feelsLike = weatherInfo[4] - kelvin;
 			this.minTemp = weatherInfo[1] - kelvin;

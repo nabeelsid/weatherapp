@@ -27,11 +27,11 @@ public class root implements ActionListener{
 		panel = new JPanel();
 		
 		userText = new JTextField(20);
-		userText.setBounds(100, 35, 165, 25); //x,y,width,height
+		userText.setBounds(100, 40, 165, 25); //x,y,width,height
 		panel.add(userText);
 		
 		label = new JLabel("City");
-		label.setBounds(20, 35, 80,25);//x,y,width,height.
+		label.setBounds(20, 40, 80,25);//x,y,width,height.
 		panel.add(label);
 		
 		button = new JButton("Go");
@@ -39,12 +39,16 @@ public class root implements ActionListener{
 		button.addActionListener(new root());
 		panel.add(button);
 		
+		currentCity = new JLabel();
+		currentCity.setBounds(20, 10, 250, 25);
+		panel.add(currentCity);
+		
 		currentTempLabel = new JLabel("");
 		currentTempLabel.setBounds(20,70,200,25);
 		panel.add(currentTempLabel);
 		
 		feelsLike = new JLabel();
-		feelsLike.setBounds(20, 100, 70, 25);
+		feelsLike.setBounds(20, 100, 130, 25);
 		panel.add(feelsLike);
 		
 		todaysMin = new JLabel();
@@ -54,10 +58,6 @@ public class root implements ActionListener{
 		todaysMax = new JLabel();
 		todaysMax.setBounds(200, 100, 70, 25);
 		panel.add(todaysMax);
-		
-		currentCity = new JLabel();
-		currentCity.setBounds(20, 5, 200, 25);
-		panel.add(currentCity);
 		
 		frame.setTitle("Weather");
 		frame.setSize(300,200);
@@ -69,10 +69,10 @@ public class root implements ActionListener{
 		w.setCity("toronto");
 		w.fetchWeather();
 		currentTempLabel.setText("Current : "+w.getCurrentWeather()+" C");
-		feelsLike.setText("Min: "+ w.getFeelsLike() + " C");
+		feelsLike.setText("Feels Like: "+ w.getFeelsLike() + " C");
 		todaysMin.setText("Min: "+ w.getTodaysMin() + " C");
 		todaysMax.setText("Max: "+ w.getTodaysMax() + " C");
-		currentCity.setText("Today's forecast for: toronto");
+		currentCity.setText("Today's forecast for: " + w.getCity());
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class root implements ActionListener{
 		w.setCity(city);
 		w.fetchWeather();
 		currentTempLabel.setText("Current : "+w.getCurrentWeather()+" C");
-		feelsLike.setText("Min: "+ w.getFeelsLike() + " C");
+		feelsLike.setText("Feels Like: "+ w.getFeelsLike() + " C");
 		todaysMin.setText("Min: "+ w.getTodaysMin() + " C");
 		todaysMax.setText("Max: "+ w.getTodaysMax() + " C");
 		currentCity.setText("Today's forecast for: "+w.getCity());
