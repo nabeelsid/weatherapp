@@ -12,8 +12,8 @@ public class root implements ActionListener{
 	private static JFrame frame;
 	private static JPanel panel;
 	private static JTextField userText;
-	private static JLabel label;
 	private static JButton button;
+	private static JLabel label;
 	private static JLabel currentTempLabel;
 	private static JLabel todaysMin;
 	private static JLabel todaysMax;
@@ -35,7 +35,7 @@ public class root implements ActionListener{
 		panel.add(label);
 		
 		button = new JButton("Go");
-		button.setBounds(100, 120, 50, 25);
+		button.setBounds(120, 120, 50, 25);
 		button.addActionListener(new root());
 		panel.add(button);
 		
@@ -44,15 +44,15 @@ public class root implements ActionListener{
 		panel.add(currentTempLabel);
 		
 		feelsLike = new JLabel();
-		feelsLike.setBounds(20, 80, 60, 25);
+		feelsLike.setBounds(20, 80, 70, 25);
 		panel.add(feelsLike);
 		
 		todaysMin = new JLabel();
-		todaysMin.setBounds(200, 60, 60, 25);
+		todaysMin.setBounds(200, 60, 70, 25);
 		panel.add(todaysMin);
 		
 		todaysMax = new JLabel();
-		todaysMax.setBounds(200, 80, 60, 25);
+		todaysMax.setBounds(200, 80, 70, 25);
 		panel.add(todaysMax);
 		
 		currentCity = new JLabel();
