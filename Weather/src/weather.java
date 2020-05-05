@@ -15,6 +15,7 @@ import org.json.simple.parser.*;
 public class weather {
 	// 94f833994ddbbc5e6c563669a6ea5bb4 my openWeather Api key.
 	private String cityName;
+	//private String city;
 	private String APIkey;
 	private int currentTemp;
 	private int minTemp;
@@ -53,7 +54,7 @@ public class weather {
 		try {
 
 			String cityInput = cityName.toLowerCase().trim();
-			String city;
+			
 			int weatherInfo[] = new int[6];
 			int count = 0;
 
@@ -65,7 +66,7 @@ public class weather {
 			Object obj = new JSONParser().parse(inputLine);
 
 			JSONObject jo = (JSONObject) obj;
-			city = (String) jo.get("name");
+			this.cityName = (String) jo.get("name");
 			Map main = ((Map) jo.get("main"));
 			Iterator<Map.Entry> itr1 = main.entrySet().iterator();
 			while (itr1.hasNext()) {
@@ -74,7 +75,7 @@ public class weather {
 				weatherInfo[count] = (int) Double.parseDouble(pair.getValue().toString());
 				count++;
 			}
-			this.cityName = city;
+			//this.cityName = city;
 			this.currentTemp = weatherInfo[0] - kelvin;
 			this.feelsLike = weatherInfo[4] - kelvin;
 			this.minTemp = weatherInfo[1] - kelvin;
